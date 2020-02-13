@@ -9,10 +9,13 @@ import com.xdja.ncpport.common.validation.ValidationMarker;
 import com.xdja.ncpport.model.domain.AppInfo;
 import com.xdja.ncpport.model.dto.request.AppInfoRequestDTO;
 import com.xdja.ncpport.model.dto.response.ResponseDTO;
+import com.xdja.ncpport.redis.service.RedisService;
 import com.xdja.ncpport.service.AppInfoService;
 import com.google.common.base.Strings;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +35,10 @@ public class AppInfoController {
 
     @Resource
     private AppInfoService appInfoService;
+
+    @Autowired
+    private RedisService redisService;
+
 
     @ApiOperation(value = "query", notes = "query example")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
