@@ -17,8 +17,8 @@ public class ApplicationTests {
 
     @Test
     public void test(){
-        redisService.put("1","1",10000);
-        String re = (String) redisService.get("1" );
+        redisService.put("2","2",10000);
+        String re = (String) redisService.get("2" );
         System.out.println( re );
     }
 

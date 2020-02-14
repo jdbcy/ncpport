@@ -20,9 +20,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * rest example controller
@@ -51,6 +55,7 @@ public class AppInfoController {
         return new ResponseDTO(page);
     }
 
+
     @ApiOperation(value = "update", notes = "update example")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseDTO update(@Validated({ValidationMarker.UpdateGroup.class}) AppInfoRequestDTO appInfoRequestDTO, BindingResult result) {
@@ -67,6 +72,23 @@ public class AppInfoController {
             throw new ServiceException("update failed, please try again later.");
         }
         return new ResponseDTO(appInfoService.list(new QueryWrapper<>()));
+    }
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "/session")
+    public Map<String, Object> getSession(HttpServletRequest request) {
+        request.getSession().setAttribute("username", "admin");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("sessionId", request.getSession().getId());
+        return map;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/get")
+    public String get(HttpServletRequest request) {
+        String userName = (String) request.getSession().getAttribute("username");
+        return userName;
     }
 
 
